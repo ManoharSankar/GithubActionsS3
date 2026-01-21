@@ -1,0 +1,40 @@
+name: Terraform S3 Deploy
+on:
+    push:
+        branches: ["main"]
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+    terraform: 
+        runs-on: ubuntu-latest
+
+        steps:
+         - name: Checkout
+           uses: actions/checkout@v4
+
+         - name: configure AWS Credentials
+           uses: aws-actions/configure-aws-credentials@v4
+           with:
+            role-to-assume: ${{secrets.AWS_Role_ARN}}
+            aws-region: ap-south-2
+         
+         - name: Setup Terraform
+           run: terraform init
+           working-directory: terraform
+         
+         - name: Terraform Plan
+           uses: terraform plan -var="bucket_name=my-secure-prod-bucket-12345"
+           working-directory: terraform
+
+         - name: Terraform apply
+           uses: terraform apply -auto-approve -var="bucket_name=my-secure-prod-bucket-12345"
+           working-directory: terraform
+
+         - name: wait 10 minutes
+           run: sleep 600
+         
+         - name: Terraform destroy
+           uses: terraform destroy -auto-approve
+           working-directory: terraform
