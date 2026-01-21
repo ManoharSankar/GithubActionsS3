@@ -5,7 +5,7 @@ provider "aws" {
 #KMS
 resource "aws_kms_key" "s3" {
     description = "KMS for s3 encryption"
-    deletion_window_in_days = 1
+    deletion_window_in_days = 7
     enable_key_rotation = true
 }
 
@@ -41,7 +41,7 @@ resource "aws_s3_bucket_ownership_controls" "this" {
 resource "aws_s3_bucket_versioning" "this" {
      bucket = aws_s3_bucket.this.id
      versioning_configuration {
-       status = enabled
+       status = "Enabled"
      }
 }
 
