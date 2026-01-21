@@ -20,7 +20,10 @@ jobs:
             role-to-assume: ${{secrets.AWS_Role_ARN}}
             aws-region: ap-south-2
          
-         - name: Setup Terraform
+         - name: SetUp Terraform
+           uses: hashicorp/setup-terraform@v3
+           
+         - name: Terraform Initialization
            run: terraform init
            working-directory: terraform
          
