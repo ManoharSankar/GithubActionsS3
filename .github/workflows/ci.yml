@@ -25,16 +25,16 @@ jobs:
            working-directory: terraform
          
          - name: Terraform Plan
-           uses: terraform plan -var="bucket_name=my-secure-prod-bucket-12345"
+           run: terraform plan -var="bucket_name=my-secure-prod-bucket-12345"
            working-directory: terraform
 
          - name: Terraform apply
-           uses: terraform apply -auto-approve -var="bucket_name=my-secure-prod-bucket-12345"
+           run: terraform apply -auto-approve -var="bucket_name=my-secure-prod-bucket-12345"
            working-directory: terraform
 
          - name: wait 10 minutes
            run: sleep 600
          
          - name: Terraform destroy
-           uses: terraform destroy -auto-approve
+           run: terraform destroy -auto-approve
            working-directory: terraform
